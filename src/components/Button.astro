@@ -1,0 +1,5 @@
+---
+interface Props { href: string; variant?: 'lime' | 'dark' | 'outline'; external?: boolean; event?: string; class?: string }
+const { href, variant = 'dark', external = false, event, class: className = '' } = Astro.props;
+---
+<a class:list={['button', `button--${variant}`, className]} href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined} data-event={event}><slot /> <span aria-hidden="true">↗</span></a>

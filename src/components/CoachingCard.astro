@@ -1,0 +1,10 @@
+---
+import { coachingPrograms } from '../data/site';
+type Program = (typeof coachingPrograms)[number];
+interface Props { program: Program; index: number }
+const { program, index } = Astro.props;
+---
+<article class="card program-card">
+  <div class="image-slot"><small>{String(index + 1).padStart(2, '0')} · {program.audience}</small></div>
+  <div class="card-content"><h3>{program.title}</h3><p>{program.description}</p><ul>{program.focuses.map((focus) => <li>{focus}</li>)}</ul><a href={`/coaching/${program.slug}`} data-event="coaching_program_view">{program.cta} →</a></div>
+</article>

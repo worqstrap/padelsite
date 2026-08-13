@@ -1,0 +1,9 @@
+---
+import Button from './Button.astro';
+import { site } from '../data/site';
+---
+<header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="Shayaan Padel home"><span class="brand-mark">S</span><span>Shayaan / Padel</span></a><button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">☰</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="/coaching">Coaching</a><a href="/ace-padel">Ace Padel</a><a href="/padel-courts">Find Courts</a><a href="/learn">Learn</a><a href="/about">About</a><Button href={site.bookingUrl} variant="lime" external event="book_coaching_click">Book Coaching</Button></nav><Button class="header-book" href={site.bookingUrl} variant="lime" external event="book_coaching_click">Book Coaching</Button></div></header>
+<script is:inline>
+  const toggle = document.querySelector('.nav-toggle'); const nav = document.querySelector('.site-nav');
+  toggle?.addEventListener('click', () => { const open = nav?.classList.toggle('open'); toggle.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('menu-open', open); });
+</script>

@@ -1,0 +1,6 @@
+---
+import type { PadelCourt } from '../data/padelCourts';
+interface Props { court: PadelCourt }
+const { court } = Astro.props;
+---
+<article class="card venue-card"><div class="image-slot"><small>{court.city}, {court.country}</small></div><div class="card-content"><p class="meta">{court.area}</p><h3>{court.name}</h3><p>{court.summary}</p><a href={`/padel-courts/${court.slug}`}>View club page →</a></div></article>
