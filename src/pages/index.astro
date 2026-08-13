@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const bookingUrl = 'https://app.playtomic.com/profile/user/6837291?utm_source=app_ios&utm_campaign=share';
+const programs = [
+  { number: '01', title: 'Private coaching', text: 'One-to-one training built around your game. Sharpen technique, decision-making and confidence with focused feedback.', tag: 'All levels', image: 'https://images.unsplash.com/photo-1622163642998-1ea32b0bbc67?auto=format&fit=crop&w=1200&q=85' },
+  { number: '02', title: 'Group sessions', text: 'High-energy sessions for friends and players at a similar level. Learn together, compete and put new skills into play.', tag: '2–4 players', image: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?auto=format&fit=crop&w=1200&q=85' },
+  { number: '03', title: 'Match play', text: 'Tactical coaching in real match situations. Improve positioning, shot selection and partnership on court.', tag: 'Intermediate+', image: 'https://images.unsplash.com/photo-1599474924187-334a4ae5bd3c?auto=format&fit=crop&w=1200&q=85' },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsActivityLocation',
+  name: 'Shayaan Padel Coaching',
+  description: 'Professional padel training and coaching in Kenya for all levels.',
+  areaServed: { '@type': 'Country', name: 'Kenya' },
+  founder: { '@type': 'Person', name: 'Shayaan', jobTitle: 'Padel Coach' },
+  sport: 'Padel',
+  sameAs: [bookingUrl],
+};
+---
+
+<Layout title="Padel Training in Kenya | Shayaan Padel Coaching" description="Level up your padel with professional private, group and match-play coaching in Kenya. Train with Shayaan and book your session on Playtomic.">
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <header class="site-header">
+    <a href="#top" class="brand" aria-label="Shayaan Padel home">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <span>Shayaan<span class="brand-light">/Padel</span></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#training">Training</a><a href="#about">About</a><a href="#approach">Approach</a>
+    </nav>
+    <a class="button button-dark header-cta" href={bookingUrl} target="_blank" rel="noopener noreferrer">Book a session <span>↗</span></a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-media" role="img" aria-label="Padel player preparing to return the ball"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <p class="eyebrow light"><span></span> Padel coaching in Kenya</p>
+        <h1>Play smarter.<br/><em>Move better.</em></h1>
+        <p class="hero-copy">Purposeful padel coaching that turns potential into performance—one session at a time.</p>
+        <div class="hero-actions">
+          <a class="button button-lime" href={bookingUrl} target="_blank" rel="noopener noreferrer">Start training <span>↗</span></a>
+          <a class="text-link" href="#training">Explore programs <span>↓</span></a>
+        </div>
+      </div>
+      <div class="hero-stat"><strong>3</strong><span>years<br/>on court</span></div>
+      <div class="scroll-note"><span></span> Scroll to discover</div>
+    </section>
+
+    <section class="intro section-pad" id="training">
+      <div class="section-heading">
+        <p class="eyebrow"><span></span> Train with intention</p>
+        <h2>Coaching built around<br/><em>the way you play.</em></h2>
+      </div>
+      <p class="section-intro">Whether you're picking up a racket for the first time or pushing for the next level, every session has a clear purpose and a plan made for you.</p>
+    </section>
+
+    <section class="programs section-pad" aria-label="Training programs">
+      {programs.map((program) => (
+        <article class="program-card">
+          <div class="card-image" style={`background-image:url('${program.image}')`}><span class="card-number">{program.number}</span><span class="card-tag">{program.tag}</span></div>
+          <div class="card-body"><h3>{program.title}</h3><p>{program.text}</p><a href={bookingUrl} target="_blank" rel="noopener noreferrer" aria-label={`Book ${program.title}`}>Book this session <span>↗</span></a></div>
+        </article>
+      ))}
+    </section>
+
+    <section class="about section-pad" id="about">
+      <div class="about-portrait"><div class="experience-badge"><strong>1+</strong><span>year<br/>coaching</span></div></div>
+      <div class="about-copy">
+        <p class="eyebrow light"><span></span> Meet your coach</p>
+        <h2>Hey, I'm<br/><em>Shayaan.</em></h2>
+        <p class="lead">Player first. Coach always.</p>
+        <p>I've spent the last three years learning the game from every angle—and the last year helping players across Kenya find their own edge on court.</p>
+        <p>My coaching is clear, positive and practical. No generic drills. Just thoughtful sessions that meet you where you are and move you forward.</p>
+        <div class="signature">Shayaan <span>— Padel Coach</span></div>
+      </div>
+    </section>
+
+    <section class="approach section-pad" id="approach">
+      <div class="section-heading"><p class="eyebrow"><span></span> The Shayaan approach</p><h2>More than hitting<br/><em>a better ball.</em></h2></div>
+      <div class="principles">
+        <article><span>01</span><h3>Understand</h3><p>We start with your game, your goals and the player you want to become.</p></article>
+        <article><span>02</span><h3>Build</h3><p>Simple, focused progressions make new technique feel natural and repeatable.</p></article>
+        <article><span>03</span><h3>Compete</h3><p>Translate training into smarter choices and more confidence when the match is on.</p></article>
+      </div>
+    </section>
+
+    <section class="cta-section section-pad">
+      <p class="eyebrow light"><span></span> Your next point starts here</p>
+      <h2>Ready to raise<br/><em>your game?</em></h2>
+      <p>Choose a time that works for you and book directly through Playtomic.</p>
+      <a class="button button-lime" href={bookingUrl} target="_blank" rel="noopener noreferrer">Book on Playtomic <span>↗</span></a>
+      <div class="court-lines" aria-hidden="true"></div>
+    </section>
+  </main>
+  <footer><a href="#top" class="brand"><span class="brand-mark">S</span><span>Shayaan<span class="brand-light">/Padel</span></span></a><p>Professional padel coaching in Kenya.</p><a href="#top">Back to top ↑</a><small>© {new Date().getFullYear()} Shayaan Padel. All rights reserved.</small></footer>
+</Layout>
