@@ -8,6 +8,8 @@ export const site = {
   coachingVenue: 'Ace Padel',
   coachingVenueAddress: 'Aga Khan Sports Centre, Nairobi',
   domain: 'https://shayaanpadel.co.ke',
+  socialImage:
+    'https://images.pexels.com/photos/38031043/pexels-photo-38031043.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop',
   whatsappNumber: '254700000000',
   whatsappDefault: 'Hi Shayaan, I found your website and I\'m interested in padel coaching at Ace Padel.',
   playtomicUrl: 'https://app.playtomic.com/profile/user/6837291?utm_source=app_ios&utm_campaign=share',

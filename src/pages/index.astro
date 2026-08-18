@@ -17,10 +17,13 @@ const heroImage = 'https://images.pexels.com/photos/38031043/pexels-photo-380310
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SportsActivityLocation',
+  '@id': `${site.domain}/#coaching`,
   name: 'Shayaan Padel Coaching',
+  url: site.domain,
+  image: site.socialImage,
   description: 'Professional padel coaching in Nairobi, Kenya. Private, group and match-play coaching at Ace Padel, Aga Khan Sports Centre.',
-  areaServed: { '@type': 'Country', name: 'Kenya' },
-  founder: { '@type': 'Person', name: 'Shayaan', jobTitle: 'Padel Coach' },
+  areaServed: { '@type': 'City', name: 'Nairobi' },
+  founder: { '@id': `${site.domain}/#coach` },
   sport: 'Padel',
   address: {
     '@type': 'PostalAddress',

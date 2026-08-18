@@ -14,7 +14,7 @@ interface Props {
 const {
   title,
   description,
-  image = '/og-default.jpg',
+  image = site.socialImage,
   canonicalPath,
   jsonLd,
   noindex = false,
@@ -26,7 +26,10 @@ const ogImage = image.startsWith('http') ? image : new URL(image, site.domain).h
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': `${site.domain}/#coach`,
   name: 'Shayaan',
+  url: site.domain,
+  image: ogImage,
   jobTitle: 'Padel Coach',
   knowsAbout: ['Padel', 'Padel coaching', 'Padel technique', 'Padel tactics'],
   areaServed: { '@type': 'City', name: 'Nairobi' },
@@ -56,7 +59,13 @@ if (jsonLd) {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <meta name="author" content={site.coachName} />
+    <meta name="theme-color" content="#101813" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'}
+    />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
@@ -65,6 +74,11 @@ if (jsonLd) {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name} — ${site.tagline}`} />
     <meta property="og:locale" content="en_KE" />
     <meta property="og:site_name" content={site.name} />
 
@@ -72,6 +86,7 @@ if (jsonLd) {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${site.name} — ${site.tagline}`} />
 
     <link rel="preconnect" href="https://images.pexels.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -81,8 +96,15 @@ if (jsonLd) {
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
 
-    <!-- Analytics placeholder: GA4 / Meta Pixel -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script> -->
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-RZ3JBHGDNB"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RZ3JBHGDNB');
+    </script>
   </head>
   <body><slot /></body>
 </html>
