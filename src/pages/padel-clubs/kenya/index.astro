@@ -1,0 +1,84 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import { padelClubs, clubMapUrl, clubPath } from '../../../lib/padelClubs';
+
+const cities = [...new Set(padelClubs.map((club) => club.city))];
+const amenities = [...new Set(padelClubs.flatMap((club) => club.amenities))].sort();
+const average = padelClubs.reduce((total, club) => total + club.rating, 0) / padelClubs.length;
+const knownIndoor = padelClubs.reduce((total, club) => total + (club.indoorCourts || 0), 0);
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Padel clubs in Kenya',
+  itemListElement: padelClubs.map((club, index) => ({
+    '@type': 'ListItem', position: index + 1, name: club.name,
+    url: new URL(clubPath(club), Astro.site || 'https://shayaanpadel.co.ke').href,
+  })),
+};
+---
+<Layout title="Padel Clubs in Kenya | Nairobi Court Directory" description={`Compare ${padelClubs.length} padel clubs in Nairobi by rating, amenities and indoor court information, then get directions to play.`} canonicalPath="/padel-clubs/kenya/" jsonLd={itemList}>
+  <Navbar />
+  <main>
+    <section class="directory-hero">
+      <div class="page-shell">
+        <p class="eyebrow light"><span></span>Kenya padel directory</p>
+        <h1>Find a padel club <em>in Kenya.</em></h1>
+        <p>Explore client-ready club profiles, compare useful details and open directions without leaving the directory guessing what to do next.</p>
+        <div class="directory-stats">
+          <div><strong>{padelClubs.length}</strong><span>listed clubs</span></div>
+          <div><strong>{cities.length}</strong><span>city covered</span></div>
+          <div><strong>{average.toFixed(1)}</strong><span>average rating</span></div>
+          <div><strong>{knownIndoor}</strong><span>known indoor courts</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="directory-section page-shell">
+      <div class="directory-intro">
+        <div><p class="eyebrow"><span></span>Compare venues</p><h2>Padel clubs in <em>Nairobi</em></h2></div>
+        <p>Ratings and review counts are a dated directory snapshot, not live scores. Confirm prices, opening hours, court availability and amenities directly with a venue before travelling.</p>
+      </div>
+      <div class="club-filters" aria-label="Filter clubs">
+        <label>Search <input id="club-search" type="search" aria-label="Search by club name" /></label>
+        <label>Minimum rating <select id="rating-filter"><option value="0">Any rating</option><option value="4">4.0+</option><option value="4.5">4.5+</option><option value="4.8">4.8+</option><option value="5">5.0</option></select></label>
+        <label>Amenity <select id="amenity-filter"><option value="">All amenities</option>{amenities.map((amenity) => <option value={amenity.toLowerCase()}>{amenity}</option>)}</select></label>
+      </div>
+      <p class="filter-result" id="filter-result" aria-live="polite">Showing all {padelClubs.length} clubs</p>
+      <div class="club-grid" id="club-grid">
+        {padelClubs.map((club, index) => (
+          <article class="club-card" data-name={club.name.toLowerCase()} data-rating={club.rating} data-amenities={club.amenities.join('|').toLowerCase()}>
+            <div class="club-rank">{String(index + 1).padStart(2, '0')}</div>
+            <div class="club-card-body"><p class="club-location">{club.city}, {club.country}</p><h3><a href={clubPath(club)}>{club.name}</a></h3><p>{club.summary}</p>
+              <div class="club-meta"><span><strong>{club.rating.toFixed(1)}</strong> rating</span><span>{club.reviewCount.toLocaleString()} reviews</span>{club.indoorCourts && <span>{club.indoorCourts} indoor courts</span>}</div>
+              <div class="club-tags">{club.amenities.map((amenity) => <span>{amenity}</span>)}</div>
+              <div class="club-actions"><a class="btn btn-dark btn-sm" href={clubPath(club)}>View club guide</a><a class="text-link-dark" href={clubMapUrl(club)} target="_blank" rel="noopener noreferrer">Directions ↗</a></div>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="empty-state" id="empty-state" hidden><h3>No clubs match those filters.</h3><p>Try a lower rating or clear the amenity filter.</p></div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const search = document.querySelector<HTMLInputElement>('#club-search');
+  const rating = document.querySelector<HTMLSelectElement>('#rating-filter');
+  const amenity = document.querySelector<HTMLSelectElement>('#amenity-filter');
+  const cards = [...document.querySelectorAll<HTMLElement>('.club-card')];
+  const result = document.querySelector('#filter-result');
+  const empty = document.querySelector<HTMLElement>('#empty-state');
+  function filterClubs() {
+    let visible = 0;
+    cards.forEach((card) => {
+      const matches = (card.dataset.name || '').includes(search?.value.trim().toLowerCase() || '') && Number(card.dataset.rating) >= Number(rating?.value || 0) && (card.dataset.amenities || '').includes(amenity?.value || '');
+      card.hidden = !matches; if (matches) visible += 1;
+    });
+    if (result) result.textContent = `Showing ${visible} ${visible === 1 ? 'club' : 'clubs'}`;
+    if (empty) empty.hidden = visible !== 0;
+  }
+  [search, rating, amenity].forEach((control) => control?.addEventListener('input', filterClubs));
+</script>

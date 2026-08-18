@@ -1,0 +1,41 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.publishedDate.toLocaleDateString('en-KE', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+---
+
+<Layout title={`${post.data.title} | Shayaan Padel`} description={post.data.description} image={post.data.image} canonicalPath={`/blog/${post.id}/`}>
+  <Navbar />
+  <main id="top">
+    <article>
+      <header class="article-hero">
+        <a href="/blog/" class="article-back">← All articles</a>
+        <p class="article-category">{post.data.category}</p>
+        <h1>{post.data.title}</h1>
+        <p class="article-deck">{post.data.description}</p>
+        <div class="article-byline"><span>By {post.data.author}</span><span>{date}</span></div>
+      </header>
+      <div class="article-image"><img src={post.data.image} alt={post.data.imageAlt} /></div>
+      <div class="article-content"><Content /></div>
+    </article>
+    <section class="article-cta">
+      <p class="eyebrow light"><span></span> Put it into practice</p>
+      <h2>Build your game with <em>focused coaching.</em></h2>
+      <a class="btn btn-lime" href="https://app.playtomic.com/profile/user/6837291?utm_source=website&utm_campaign=blog" target="_blank" rel="noopener noreferrer">Book with Shayaan <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+  <Footer />
+</Layout>

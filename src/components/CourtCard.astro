@@ -17,9 +17,9 @@ const { court } = Astro.props;
     <p class="court-location">{court.area}, {court.city}</p>
     <p class="court-overview">{court.overview}</p>
     <div class="court-meta">
-      <span>{court.courtCount} courts</span>
+      <span>{court.indoorOutdoor}</span>
       {court.playtomic && <span class="court-playtomic">Playtomic</span>}
     </div>
-    <a href={`/padel-courts/${court.slug}`} class="court-link">View club page <span aria-hidden="true">↗</span></a>
+    <a href={court.mapsUrl} target="_blank" rel="noopener noreferrer" class="court-link">Open in Google Maps <span aria-hidden="true">↗</span></a>
   </div>
 </article>

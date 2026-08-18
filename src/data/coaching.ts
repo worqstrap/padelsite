@@ -129,32 +129,29 @@ export interface Testimonial {
   level: string;
   rating?: string;
   improvement?: string;
-  isPlaceholder: boolean;
 }
 
 export const testimonials: Testimonial[] = [
   {
-    name: '[Player name]',
+    name: 'Clear diagnosis',
     image: '',
-    quote: '[Testimonial text — replace with a real review from a coaching client.]',
-    level: '[Level — e.g. Beginner]',
-    rating: '[Playtomic rating — optional]',
-    improvement: '[Result — optional]',
-    isPlaceholder: true,
+    quote: 'Start with a focused assessment of your movement, technique and decision-making, then train the areas that will make the biggest difference to your game.',
+    level: 'Every coaching plan',
+    improvement: 'A clear priority for each session',
   },
   {
-    name: '[Player name]',
+    name: 'Purposeful practice',
     image: '',
-    quote: '[Testimonial text — replace with a real review from a coaching client.]',
-    level: '[Level — e.g. Intermediate]',
-    isPlaceholder: true,
+    quote: 'Work through simple progressions, realistic ball feeds and point-based exercises designed to help new habits hold up when the pace increases.',
+    level: 'Technique into match play',
+    improvement: 'Drills with a reason behind them',
   },
   {
-    name: '[Player name]',
+    name: 'Actionable feedback',
     image: '',
-    quote: '[Testimonial text — replace with a real review from a coaching client.]',
-    level: '[Level — e.g. Competitive]',
-    isPlaceholder: true,
+    quote: 'Leave knowing what improved, what to practise next and which tactical cues to use with your partner in your next match.',
+    level: 'Progress you can carry forward',
+    improvement: 'Practical next steps after every session',
   },
 ];
 
@@ -163,8 +160,7 @@ export interface CoachingVideo {
   topic: string;
   thumbnail: string;
   alt: string;
-  videoUrl: string;
-  isPlaceholder: boolean;
+  summary: string;
 }
 
 export const coachingVideos: CoachingVideo[] = [
@@ -173,47 +169,41 @@ export const coachingVideos: CoachingVideo[] = [
     topic: 'Technique',
     thumbnail: 'https://images.pexels.com/photos/35261961/pexels-photo-35261961.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
     alt: 'Padel player in ready position on an indoor court',
-    videoUrl: '',
-    isPlaceholder: true,
+    summary: 'Recover with your partner, protect the middle and move forward together when the opportunity is clear.',
   },
   {
     title: 'How to Defend Using the Glass',
     topic: 'Technique',
     thumbnail: 'https://images.pexels.com/photos/38090725/pexels-photo-38090725.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
     alt: 'Padel player defending against the glass wall',
-    videoUrl: '',
-    isPlaceholder: true,
+    summary: 'Let the ball travel, create space from the back wall and use a compact swing to regain control.',
   },
   {
     title: 'When to Attack the Net',
     topic: 'Tactics',
     thumbnail: 'https://images.pexels.com/photos/38347564/pexels-photo-38347564.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
     alt: 'Padel player moving forward to attack at the net',
-    videoUrl: '',
-    isPlaceholder: true,
+    summary: 'Approach behind a ball that keeps opponents deep, then split-step before they make contact.',
   },
   {
     title: 'Bandeja Technique',
     topic: 'Technique',
     thumbnail: 'https://images.pexels.com/photos/1103829/pexels-photo-1103829.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
     alt: 'Padel player preparing for a bandeja shot',
-    videoUrl: '',
-    isPlaceholder: true,
+    summary: 'Use a high contact point, controlled slice and balanced recovery to hold your net position.',
   },
   {
     title: 'Partner Positioning',
     topic: 'Tactics',
     thumbnail: 'https://images.pexels.com/photos/34079998/pexels-photo-34079998.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
     alt: 'Two padel players coordinating their positioning during a match',
-    videoUrl: '',
-    isPlaceholder: true,
+    summary: 'Stay connected side to side so one player presses the ball while the other protects the space.',
   },
   {
     title: 'Serve & Return Strategy',
     topic: 'Match Strategy',
     thumbnail: 'https://images.pexels.com/photos/35646550/pexels-photo-35646550.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop',
     alt: 'Padel racket and ball on a blue court ready for serving',
-    videoUrl: '',
-    isPlaceholder: true,
+    summary: 'Serve with a clear first-ball plan; on return, prioritise depth and earn your way toward the net.',
   },
 ];

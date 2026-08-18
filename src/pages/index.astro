@@ -7,8 +7,9 @@ import CoachingCard from '../components/CoachingCard.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import VideoCard from '../components/VideoCard.astro';
 import CourtCard from '../components/CourtCard.astro';
-import WhatsAppButton from '../components/WhatsAppButton.astro';
-import { site, whatsappLink } from '../data/site';
+import BlogCard from '../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../data/site';
 import { coachingPrograms, playerLevels, philosophySteps, testimonials, coachingVideos } from '../data/coaching';
 import { padelCourts } from '../data/padelCourts';
 
@@ -37,6 +38,10 @@ const trustItems = [
   'Private & Group Coaching',
   'Playtomic Friendly',
 ];
+
+const latestPosts = (await getCollection('blog'))
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
+  .slice(0, 3);
 ---
 
 <Layout
@@ -56,10 +61,10 @@ const trustItems = [
         <h1>Improve Your Padel.<br/><em>Play Smarter. Win More Points.</em></h1>
         <p class="hero-copy">Private coaching, group sessions and match training with Shayaan at Ace Padel, Aga Khan Sports Centre.</p>
         <div class="hero-actions">
-          <a class="btn btn-lime" href={whatsappLink('Hi Shayaan, I\'d like to book a padel coaching session.')} target="_blank" rel="noopener noreferrer" data-track="book-coaching">
+          <a class="btn btn-lime" href={site.playtomicUrl} target="_blank" rel="noopener noreferrer" data-track="book-coaching">
             Book Coaching <span aria-hidden="true">↗</span>
           </a>
-          <WhatsAppButton label="WhatsApp Shayaan" variant="light" size="md" />
+          <a class="btn btn-light btn-sm" href={site.instagram} target="_blank" rel="noopener noreferrer" data-track="instagram-click">Message on Instagram <span aria-hidden="true">↗</span></a>
           <a class="text-link" href={site.playtomicUrl} target="_blank" rel="noopener noreferrer" data-track="playtomic-click">Book a Court <span aria-hidden="true">↗</span></a>
         </div>
       </div>
@@ -80,7 +85,7 @@ const trustItems = [
             <span class="level-number">{level.number}</span>
             <h3>{level.title}</h3>
             <p>{level.description}</p>
-            <a href={whatsappLink(level.whatsappMessage)} target="_blank" rel="noopener noreferrer" class="level-cta" data-track="level-cta">
+            <a href={site.playtomicUrl} target="_blank" rel="noopener noreferrer" class="level-cta" data-track="level-cta">
               {level.cta} <span aria-hidden="true">↗</span>
             </a>
           </article>
@@ -131,7 +136,7 @@ const trustItems = [
           <div><strong>Coaching</strong><span>Private, group & match sessions</span></div>
         </div>
         <div class="ace-actions">
-          <a class="btn btn-lime" href={whatsappLink('Hi Shayaan, I\'d like to train at Ace Padel.')} target="_blank" rel="noopener noreferrer" data-track="ace-train">
+          <a class="btn btn-lime" href={site.playtomicUrl} target="_blank" rel="noopener noreferrer" data-track="ace-train">
             Train at Ace Padel <span aria-hidden="true">↗</span>
           </a>
           <a class="btn btn-light btn-sm" href={site.playtomicUrl} target="_blank" rel="noopener noreferrer" data-track="playtomic-click">
@@ -147,33 +152,44 @@ const trustItems = [
       </div>
     </section>
 
-    <!-- Section 7: Testimonials -->
-    <section class="section-pad section-tint" id="testimonials">
-      <SectionHeading eyebrow="What players say" heading="Trusted by players" em="across Nairobi." center={true} />
+    <!-- Section 7: Coaching promise -->
+    <section class="section-pad section-tint" id="session-plan">
+      <SectionHeading eyebrow="What to expect" heading="Every session has" em="a clear purpose." center={true} />
       <div class="testimonials-grid">
         {testimonials.map((t) => <TestimonialCard testimonial={t} />)}
       </div>
     </section>
 
-    <!-- Section 8: Coaching Videos -->
-    <section class="section-pad" id="videos">
-      <SectionHeading eyebrow="Coaching videos" heading="Improve your game" em="with Shayaan." center={true} />
-      <p class="section-intro section-intro-center">Short coaching videos covering technique, tactics and match strategy. New content added regularly.</p>
+    <!-- Section 8: Coaching guides -->
+    <section class="section-pad" id="guides">
+      <SectionHeading eyebrow="Quick coaching guides" heading="Smarter habits for" em="your next match." center={true} />
+      <p class="section-intro section-intro-center">Practical cues for technique, positioning and match strategy. Use these ideas on court, then build them into your game during a coaching session.</p>
       <div class="videos-grid">
         {coachingVideos.map((v) => <VideoCard video={v} />)}
       </div>
     </section>
 
-    <!-- Section 9: Padel Courts teaser -->
-    <section class="section-pad section-dark" id="courts-teaser">
-      <SectionHeading eyebrow="Padel in Kenya" heading="Find padel courts" em="across Kenya." light={true} center={true} />
-      <p class="section-intro section-intro-center section-intro-light">Discover padel clubs, courts and places to play across Nairobi and Kenya.</p>
+    <!-- Section 9: Journal -->
+    <section class="section-pad home-blog" id="journal">
+      <div class="home-blog-head">
+        <SectionHeading eyebrow="The Padel Journal" heading="Read. Learn." em="Play better." />
+        <a href="/blog/" class="home-blog-all">View all articles <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="blog-grid">
+        {latestPosts.map((post) => <BlogCard post={post} />)}
+      </div>
+    </section>
+
+    <!-- Section 10: Coaching venue -->
+    <section class="section-pad section-dark" id="venue">
+      <SectionHeading eyebrow="Where we train" heading="Your Nairobi" em="coaching venue." light={true} center={true} />
+      <p class="section-intro section-intro-center section-intro-light">Train at Ace Padel in Parklands, bookable through Playtomic and easy to find at Aga Khan Sports Centre.</p>
       <div class="courts-preview">
         {padelCourts.map((court) => <CourtCard court={court} />)}
       </div>
       <div class="courts-teaser-cta">
-        <a class="btn btn-lime" href="/padel-courts" data-track="explore-courts">
-          Explore Padel Courts <span aria-hidden="true">↗</span>
+        <a class="btn btn-lime" href={site.playtomicUrl} target="_blank" rel="noopener noreferrer" data-track="playtomic-click">
+          Book Ace Padel on Playtomic <span aria-hidden="true">↗</span>
         </a>
       </div>
     </section>
@@ -184,10 +200,10 @@ const trustItems = [
       <h2>Ready to raise<br/><em>your game?</em></h2>
       <p>Book coaching with Shayaan at Ace Padel, Aga Khan Sports Centre, Nairobi.</p>
       <div class="cta-final-actions">
-        <a class="btn btn-lime" href={whatsappLink('Hi Shayaan, I\'m ready to book a coaching session.')} target="_blank" rel="noopener noreferrer" data-track="book-coaching">
+        <a class="btn btn-lime" href={site.playtomicUrl} target="_blank" rel="noopener noreferrer" data-track="book-coaching">
           Book Coaching <span aria-hidden="true">↗</span>
         </a>
-        <WhatsAppButton label="Message Shayaan" variant="light" />
+        <a class="btn btn-light" href={site.instagram} target="_blank" rel="noopener noreferrer" data-track="instagram-click">Message on Instagram <span aria-hidden="true">↗</span></a>
       </div>
     </section>
   </main>
@@ -221,15 +237,5 @@ const trustItems = [
       header?.classList.toggle('scrolled', scrolled);
     }, { passive: true });
 
-    // Click tracking (placeholder for analytics)
-    document.querySelectorAll('[data-track]').forEach((el) => {
-      el.addEventListener('click', () => {
-        const eventName = el.getAttribute('data-track');
-        if (eventName) {
-          // window.gtag?.('event', eventName, {});
-          console.debug('track:', eventName);
-        }
-      });
-    });
   </script>
 </Layout>

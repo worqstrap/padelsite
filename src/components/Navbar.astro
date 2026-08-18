@@ -1,6 +1,5 @@
 ---
-import { site, nav, whatsappLink } from '../data/site';
-import WhatsAppButton from './WhatsAppButton.astro';
+import { site, nav, resourceNav } from '../data/site';
 ---
 
 <header class="site-header" id="site-header">
@@ -10,9 +9,10 @@ import WhatsAppButton from './WhatsAppButton.astro';
   </a>
   <nav class="nav-desktop" aria-label="Main navigation">
     {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    <details class="resource-menu"><summary>Resources <span aria-hidden="true">⌄</span></summary><div class="resource-menu-panel">{resourceNav.map((item) => <a href={item.href}><strong>{item.label}</strong><small>{item.description}</small></a>)}</div></details>
   </nav>
   <div class="header-actions">
-    <a class="btn btn-dark btn-sm header-cta" href={whatsappLink('Hi Shayaan, I\'d like to book a padel coaching session.')} target="_blank" rel="noopener noreferrer" data-track="book-coaching">
+    <a class="btn btn-dark btn-sm header-cta" href={site.playtomicUrl} target="_blank" rel="noopener noreferrer" data-track="book-coaching">
       Book Coaching
     </a>
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" id="nav-toggle">
@@ -24,7 +24,9 @@ import WhatsAppButton from './WhatsAppButton.astro';
 <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
   <nav aria-label="Mobile navigation">
     {nav.map((item) => <a href={item.href} class="mobile-nav-link">{item.label}</a>)}
-    <a href={whatsappLink('Hi Shayaan, I\'d like to book a padel coaching session.')} target="_blank" rel="noopener noreferrer" class="btn btn-lime mobile-nav-cta" data-track="book-coaching">
+    <p class="mobile-nav-heading">Resources</p>
+    {resourceNav.map((item) => <a href={item.href} class="mobile-nav-link">{item.label}</a>)}
+    <a href={site.playtomicUrl} target="_blank" rel="noopener noreferrer" class="btn btn-lime mobile-nav-cta" data-track="book-coaching">
       Book Coaching
     </a>
   </nav>
