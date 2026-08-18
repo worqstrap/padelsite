@@ -1,9 +1,9 @@
 ---
-import Layout from '../../../../layouts/Layout.astro';
+import Layout from '../../../../layouts/PageLayout.astro';
 import Navbar from '../../../../components/Navbar.astro';
 import Footer from '../../../../components/Footer.astro';
 import { padelClubs, clubMapUrl, clubPath, type PadelClub } from '../../../../lib/padelClubs';
-import { site } from '../../../../data/site';
+import { site } from '../../../../data/siteContent';
 
 export function getStaticPaths() {
   return padelClubs.map((club) => ({ params: { slug: club.slug }, props: { club } }));

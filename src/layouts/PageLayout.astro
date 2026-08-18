@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { site, whatsappLink } from '../data/site';
+import { site } from '../data/siteContent';
 
 interface Props {
   title: string;
@@ -14,7 +14,7 @@ interface Props {
 const {
   title,
   description,
-  image = '/og-default.jpg',
+  image = 'https://images.pexels.com/photos/38031043/pexels-photo-38031043.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop',
   canonicalPath,
   jsonLd,
   noindex = false,
@@ -81,8 +81,6 @@ if (jsonLd) {
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
 
-    <!-- Analytics placeholder: GA4 / Meta Pixel -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script> -->
   </head>
   <body><slot /></body>
 </html>
