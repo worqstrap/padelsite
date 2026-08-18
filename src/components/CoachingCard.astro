@@ -1,0 +1,28 @@
+---
+import type { CoachingProgram } from '../data/coaching';
+import { whatsappLink } from '../data/site';
+
+interface Props {
+  program: CoachingProgram;
+  index: number;
+}
+
+const { program, index } = Astro.props;
+const waMessage = `Hi Shayaan, I'm interested in ${program.title.toLowerCase()} at Ace Padel.`;
+---
+
+<article class={`program-card card-${index + 1}`}>
+  <div class="card-image" style={`background-image:url('${program.image}')`}>
+    <span class="card-number">{String(index + 1).padStart(2, '0')}</span>
+  </div>
+  <div class="card-body">
+    <h3>{program.title}</h3>
+    <p>{program.description}</p>
+    <ul class="card-focus">
+      {program.focus.map((f) => <li>{f}</li>)}
+    </ul>
+    <a href={whatsappLink(waMessage)} target="_blank" rel="noopener noreferrer" class="card-cta" data-track="coaching-cta">
+      {program.cta} <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</article>

@@ -1,0 +1,24 @@
+---
+import type { CoachingVideo } from '../data/coaching';
+
+interface Props {
+  video: CoachingVideo;
+}
+
+const { video } = Astro.props;
+---
+
+<article class={`video-card ${video.isPlaceholder ? 'video-placeholder' : ''}`}>
+  <div class="video-thumbnail" style={`background-image:url('${video.thumbnail}')`}>
+    {!video.isPlaceholder && (
+      <button class="video-play" aria-label={`Play ${video.title}`} data-video={video.videoUrl}>
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" aria-hidden="true">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </button>
+    )}
+    {video.isPlaceholder && <span class="video-soon">Coming soon</span>}
+    <span class="video-topic">{video.topic}</span>
+  </div>
+  <h3>{video.title}</h3>
+</article>

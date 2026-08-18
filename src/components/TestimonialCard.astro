@@ -1,0 +1,28 @@
+---
+import type { Testimonial } from '../data/coaching';
+
+interface Props {
+  testimonial: Testimonial;
+}
+
+const { testimonial } = Astro.props;
+const initials = testimonial.name.replace(/[\[\]]/g, '').trim().charAt(0) || '?';
+---
+
+<article class={`testimonial-card ${testimonial.isPlaceholder ? 'testimonial-placeholder' : ''}`}>
+  {testimonial.isPlaceholder && <span class="placeholder-tag">Placeholder — replace with real review</span>}
+  <div class="testimonial-image">
+    {testimonial.image ? (
+      <img src={testimonial.image} alt={testimonial.name} loading="lazy" />
+    ) : (
+      <span class="testimonial-initials" aria-hidden="true">{initials}</span>
+    )}
+  </div>
+  <blockquote>"{testimonial.quote}"</blockquote>
+  <div class="testimonial-meta">
+    <strong>{testimonial.name}</strong>
+    <span class="testimonial-level">{testimonial.level}</span>
+    {testimonial.rating && <span class="testimonial-rating">{testimonial.rating}</span>}
+    {testimonial.improvement && <span class="testimonial-improvement">{testimonial.improvement}</span>}
+  </div>
+</article>

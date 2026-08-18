@@ -1,0 +1,23 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  href: string;
+  variant?: 'lime' | 'dark' | 'light' | 'whatsapp';
+  size?: 'sm' | 'md' | 'lg';
+  external?: boolean;
+  class?: string;
+}
+
+const { href, variant = 'lime', size = 'md', external = false, class: className = '' } = Astro.props;
+
+const sizeClass = size === 'sm' ? 'btn-sm' : size === 'lg' ? 'btn-lg' : '';
+---
+
+<a
+  href={href}
+  class={`btn btn-${variant} ${sizeClass} ${className}`.trim()}
+  {...external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+>
+  <slot />
+</a>

@@ -1,0 +1,25 @@
+---
+import type { PadelCourt } from '../data/padelCourts';
+
+interface Props {
+  court: PadelCourt;
+}
+
+const { court } = Astro.props;
+---
+
+<article class={`court-card ${court.isCoachingVenue ? 'court-card-featured' : ''}`}>
+  <div class="court-image" style={`background-image:url('${court.image}')`}>
+    {court.isCoachingVenue && <span class="court-badge">Coaching Venue</span>}
+  </div>
+  <div class="court-body">
+    <h3>{court.name}</h3>
+    <p class="court-location">{court.area}, {court.city}</p>
+    <p class="court-overview">{court.overview}</p>
+    <div class="court-meta">
+      <span>{court.courtCount} courts</span>
+      {court.playtomic && <span class="court-playtomic">Playtomic</span>}
+    </div>
+    <a href={`/padel-courts/${court.slug}`} class="court-link">View club page <span aria-hidden="true">↗</span></a>
+  </div>
+</article>
