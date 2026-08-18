@@ -1,0 +1,29 @@
+---
+import Layout from '../../../../layouts/PageLayout.astro';
+import Navbar from '../../../../components/Navbar.astro';
+import Footer from '../../../../components/Footer.astro';
+import { padelClubs, clubMapUrl, clubPath, type PadelClub } from '../../../../lib/padelClubs';
+import { site } from '../../../../data/siteContent';
+
+export function getStaticPaths() {
+  return padelClubs.map((club) => ({ params: { slug: club.slug }, props: { club } }));
+}
+const { club } = Astro.props as { club: PadelClub };
+const alternatives = padelClubs.filter((item) => item.slug !== club.slug).slice(0, 3);
+const schema = {
+  '@context': 'https://schema.org', '@type': 'SportsActivityLocation', name: club.name,
+  address: { '@type': 'PostalAddress', addressLocality: club.city, addressCountry: 'KE' },
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: club.rating, reviewCount: club.reviewCount },
+};
+---
+<Layout title={`${club.name}: Padel Club Guide, Rating & Directions`} description={`${club.summary} See its ${club.rating.toFixed(1)} directory rating, available facility details, directions and Nairobi playing advice.`} canonicalPath={clubPath(club)} jsonLd={schema}>
+  <Navbar />
+  <main>
+    <section class="club-detail-hero"><div class="page-shell"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/padel-clubs/kenya/">Kenya clubs</a><span>/</span><span>{club.name}</span></nav><p class="eyebrow light"><span></span>Nairobi club guide</p><h1>{club.name}</h1><p>{club.summary}</p><div class="hero-actions"><a class="btn btn-lime btn-lg" href={clubMapUrl(club)} target="_blank" rel="noopener noreferrer">Open directions</a><a class="btn btn-light btn-lg" href={site.playtomicUrl} target="_blank" rel="noopener noreferrer">Book coaching</a></div></div></section>
+    <section class="club-detail page-shell">
+      <aside class="club-fact-panel"><h2>At a glance</h2><dl><div><dt>Location</dt><dd>{club.city}, {club.country}</dd></div><div><dt>Directory rating</dt><dd>{club.rating.toFixed(1)} / 5</dd></div><div><dt>Review snapshot</dt><dd>{club.reviewCount.toLocaleString()} reviews</dd></div><div><dt>Indoor courts reported</dt><dd>{club.indoorCourts ?? 'Not published'}</dd></div><div><dt>Data updated</dt><dd>{new Date(club.dataUpdated).toLocaleDateString('en-KE', { month: 'long', year: 'numeric' })}</dd></div></dl>{club.amenities.length > 0 && <div class="club-tags">{club.amenities.map((item) => <span>{item}</span>)}</div>}</aside>
+      <div class="club-guide-copy"><section><p class="eyebrow"><span></span>Venue overview</p><h2>Playing at <em>{club.name}</em></h2><p>{club.playingGuide}</p><p>{club.areaGuide}</p></section><section><h2>Before you book</h2><p>Ask the venue to confirm the current court price, opening hours, cancellation policy, racket rental and ball availability. Directory ratings can change, and the review figure above is a reference snapshot rather than a live feed.</p><ul class="check-list"><li>Confirm whether your booking is for an indoor or outdoor court.</li><li>Ask how early players should arrive and what footwear is accepted.</li><li>Check whether rackets and balls are included or rented separately.</li><li>Use the directions link to verify the current entrance before travelling.</li></ul></section><section class="coach-callout"><p class="eyebrow light"><span></span>Improve your game</p><h2>Want more than a court booking?</h2><p>Shayaan offers private, group and match-play coaching at Ace Padel in Nairobi for beginners through competitive players.</p><a class="btn btn-lime" href={site.playtomicUrl} target="_blank" rel="noopener noreferrer">Book coaching on Playtomic</a></section></div>
+    </section>
+    <section class="related-clubs"><div class="page-shell"><div class="directory-intro"><div><p class="eyebrow light"><span></span>Keep comparing</p><h2>Other Nairobi clubs</h2></div><a class="btn btn-light" href="/padel-clubs/kenya/">View full directory</a></div><div class="related-grid">{alternatives.map((item) => <a href={clubPath(item)}><span>{item.rating.toFixed(1)} rating</span><h3>{item.name}</h3><p>{item.summary}</p><strong>View club guide →</strong></a>)}</div></div></section>
+  </main><Footer />
+</Layout>

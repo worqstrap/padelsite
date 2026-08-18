@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import { site } from '../data/siteContent';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalPath?: string;
+  jsonLd?: object | object[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = 'https://images.pexels.com/photos/38031043/pexels-photo-38031043.jpeg?auto=compress&cs=tinysrgb&w=1200&h=630&fit=crop',
+  canonicalPath,
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(canonicalPath || Astro.url.pathname, site.domain);
+const ogImage = image.startsWith('http') ? image : new URL(image, site.domain).href;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Shayaan',
+  jobTitle: 'Padel Coach',
+  knowsAbout: ['Padel', 'Padel coaching', 'Padel technique', 'Padel tactics'],
+  areaServed: { '@type': 'City', name: 'Nairobi' },
+  worksFor: {
+    '@type': 'SportsActivityLocation',
+    name: 'Ace Padel',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Nairobi',
+      addressCountry: 'Kenya',
+    },
+  },
+};
+
+const allSchemas = [personSchema];
+if (jsonLd) {
+  if (Array.isArray(jsonLd)) allSchemas.push(...jsonLd);
+  else allSchemas.push(jsonLd);
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_KE" />
+    <meta property="og:site_name" content={site.name} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://images.pexels.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    {allSchemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+
+  </head>
+  <body><slot /></body>
+</html>

@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/PageLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import BlogCard from '../../components/BlogCard.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf(),
+);
+const categories = [...new Set(posts.map((post) => post.data.category))];
+const categorySlug = (category: string) => category.toLowerCase().replaceAll(' ', '-').replace('&', 'and');
+---
+
+<Layout title="Padel Guides & Stories in Kenya | Shayaan Padel" description="Practical padel coaching guides, beginner advice and stories from Kenya's growing padel community.">
+  <Navbar />
+  <main id="top">
+    <header class="blog-hero">
+      <p class="eyebrow light"><span></span> The Padel Journal</p>
+      <h1>Learn the game.<br/><em>Play with purpose.</em></h1>
+      <p>Coaching advice, match tactics and useful guides for padel players in Nairobi and across Kenya.</p>
+    </header>
+
+    <section class="blog-listing section-pad">
+      <div class="blog-listing-head">
+        <div>
+          <p class="eyebrow"><span></span> Latest articles</p>
+          <h2>Ideas for your <em>next session.</em></h2>
+        </div>
+        <nav class="category-nav" aria-label="Blog categories">
+          <a class="active" href="/blog/">All articles</a>
+          {categories.map((category) => <a href={`/blog/category/${categorySlug(category)}/`}>{category}</a>)}
+        </nav>
+      </div>
+      <div class="blog-grid">
+        {posts.map((post) => <BlogCard post={post} />)}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
